@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    table, th, td {
+    border:1px solid black;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced</title>
+</head>
+<body>
+    <h1>Edit Devices</h1>
+    <form id="edit-devices" method="post" action="/players/edit-devices">
+        <table id="knownPlayers">
+            <tr>
+                <td></td>
+                <th>Device</th>
+                <th>IP Address</th>
+                <th>Name</th>
+                <th>Number</th>
+            </tr>
+            <% for ( var player of known ) { %>
+            <tr>
+                <td><button type="button" onclick="removeRow()">-</button></td>
+                <td><input type="number" name="<%= player.deviceNumber %>deviceNumber" value="<%= player.deviceNumber %>"></td>
+                <td><input type="text" name="<%= player.deviceNumber %>ip" value="<%= player.ip %>"></td>
+                <td><%= player.name %></td>
+                <td><%= player.number %></td>
+            </tr>
+            <% } %>
+        </table>
+    </form>
+    <button onclick="addPlayer()">+</button>
+    <button onclick="submitForm()">Save and Quit</button><br>
+
+    <a href="/">Quit</a>
+
+    <% if ( unknown.length > 0 ) { %>
+        <h1>Unknown Players</h1>
+        <table id="unknownPlayers">
+            <tr>
+                <th>IP Address</th>
+            </tr>
+            <% for( var player of unknown ) { %>
+            <tr>
+                <td><%= player.ip %></td>
+            </tr>
+            <% } %>
+        </table>
+    <% } %>
+
+<script>
+    function addPlayer() {
+        var table = document.getElementById("knownPlayers");
+        var newRow = table.insertRow(-1);
+        button = document.createElement("button");
+        button.type = "button";
+        button.onclick = removeRow;
+        button.innerHTML = "-"
+        newRow.insertCell(0).appendChild(button);
+        input = document.createElement("input");
+        input.name = "temp";
+        input.type = "number";
+        input.value = 0;
+        newRow.insertCell(1).appendChild(input);
+        input = document.createElement("input");
+        input.name = "temp";
+        input.type = "text";
+        input.value = "ipAddress";
+        newRow.insertCell(2).appendChild(input);
+        newRow.insertCell(3).innerHTML = "First Last";
+        newRow.insertCell(4).innerHTML = "##";
+    }
+
+    function removeRow() {
+        var td = event.target.parentNode; 
+        var tr = td.parentNode; // the row to be removed
+        tr.parentNode.removeChild(tr);
+    }
+
+    function submitForm() {
+        var table = document.getElementById("knownPlayers");
+        var deviceNumbers = Array(0);
+        var valid = true;
+        for (var i = 1; i < table.rows.length; i++) {
+            var deviceNumber = table.rows[i].cells[1].firstChild.value;
+            if (deviceNumbers.includes(deviceNumber)) {
+                valid = false;
+                break;
+            }
+            deviceNumbers.push(deviceNumber);
+            if (table.rows[i].cells[1].firstChild.name == "temp") {
+                table.rows[i].cells[1].firstChild.name = `${deviceNumber.toString()}newDeviceNumber`;
+                table.rows[i].cells[2].firstChild.name = `${deviceNumber.toString()}newIp`;
+            }
+        }
+        if (valid) {
+            document.getElementById("edit-devices").submit();
+        }
+    }
+</script>
+</body>
+</html> 

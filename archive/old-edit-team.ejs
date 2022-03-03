@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    table, th, td {
+    border:1px solid black;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Team</title>
+</head>
+<body>
+
+    <h1>Edit Team</h1>
+    <form method="post" action="/players/edit-team">
+        <table id="knownPlayers">
+            <tr>
+                <th>Device</th>
+                <th>IP Address</th>
+                <th>Name</th>
+                <th>Number</th>
+            </tr>
+            <% for ( var player of known ) { %>
+            <tr>
+                <td><%= player.deviceNumber %></td>
+                <td><%= player.ip %></td>
+                <td><input type="text" name="<%= player.deviceNumber %>name" value="<%= player.name %>"></td>
+                <td><input type="text" name="<%= player.deviceNumber %>number" value="<%= player.number %>"></td>
+            </tr>
+            <% } %>
+        </table>
+        <input type="submit" value="Save and Quit">
+    </form>
+
+    <a href="/">Quit</a>
+
+</body>
+</html> 

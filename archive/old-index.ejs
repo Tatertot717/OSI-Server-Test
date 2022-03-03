@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<style>
+
+    table, th, td {
+    border:1px solid black;
+    },
+  
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="w3.css"> 
+    <!--https://www.w3schools.com/w3css/w3css_references.asp -->
+
+</head>
+  
+<body id="body">
+
+
+    <form id="roster" method="post" action="/players"></form>
+    <label for="rosterSelect">Change Roster:</label>
+    <select name="rosterSelect" form="roster" id="rosterList">
+      <% for (var i = 0; i < directory.length; i++) { %>
+        <option><%= directory[i]%></option>
+      <% } %>
+    </select>
+        
+    <button onclick="document.getElementById('roster').submit()">Submit</button>
+    <button onclick="location.href='/players/new-roster'">+</button>
+
+
+
+    <h1>Players</h1>
+    <table id="knownPlayers">
+        <tr>
+            <th>Device</th>
+            <th>IP Address</th>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Acceleration</th>
+        </tr>
+        <% for( var player of known ) { %>
+        <tr>
+            <td><%= player.deviceNumber %></td>
+            <td><%= player.ip %></td>
+            <td><%= player.name %></td>
+            <td><%= player.number %></td>
+            <td><%= player.data.maxAcceleration %></td>
+        </tr>
+        <% } %>
+    </table>
+
+    <% if ( unknown.length > 0 ) { %>
+        <h1>Unknown Players</h1>
+        <table id="unknownPlayers">
+            <tr>
+                <th>IP Address</th>
+                <th>Acceleration</th>
+            </tr>
+            <% for( var player of unknown ) { %>
+            <tr>
+                <td><%= player.ip %></td>
+                <td><%= player.data.maxAcceleration %></td>
+            </tr>
+            <% } %>
+        </table>
+    <% } %>
+
+    <a href="/players/edit-team">Edit Team</a><br>
+    <a href="/players/edit-devices">Edit Devices</a>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+
+    socket.on("new data", (data) => {
+        console.log("New data available!")
+        console.log(data);
+      
+        if ("deviceNumber" in data) {
+            var table = document.getElementById("knownPlayers");
+            
+            var found = false;
+            for (var i = 1; i < table.rows.length; i++) {
+                if (table.rows[i].cells[0].innerHTML == data.deviceNumber) {
+                    table.rows[i].cells[2].innerHTML = data.name;
+                    table.rows[i].cells[3].innerHTML = data.number;
+                    table.rows[i].cells[4].innerHTML = data.data.maxAcceleration;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) { //this is when you addPlayer
+                var newRow = table.insertRow(-1);
+                newRow.insertCell(0).innerHTML = data.deviceNumber;
+                newRow.insertCell(1).innerHTML = data.ip;
+                newRow.insertCell(2).innerHTML = data.name;
+                newRow.insertCell(3).innerHTML = data.number;
+                newRow.insertCell(4).innerHTML = data.data.maxAcceleration;
+            }
+        } else {
+            var table = document.getElementById("unknownPlayers");
+
+            if (table == null) {
+                var head = document.createElement("h1");
+                head.innerHTML = "Unknown Players";
+
+                table = document.createElement("table");
+                table.id = "unknownPlayers";
+                var newRow = table.insertRow(0);
+                newRow.insertCell(0).outerHTML = "<th>IP Address</th>";
+                newRow.insertCell(1).outerHTML = "<th>Acceleration</th>";
+
+                document.getElementById("body").appendChild(head);
+                document.getElementById("body").appendChild(myTable);
+            }
+
+            var found = false;
+            for (var i = 1; i < table.rows.length; i++) {
+                if (table.rows[i].cells[0].innerHTML == data.ip) {
+                    table.rows[i].cells[1].innerHTML = data.data.maxAccereration;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                var newRow = table.insertRow(-1);
+                newRow.insertCell(0).innerHTML = data.ip;
+                newRow.insertCell(1).innerHTML = data.data.maxAcceleration;
+            }
+        }
+    });
+</script>
+</body>
+</html>

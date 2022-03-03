@@ -34,13 +34,11 @@
     </select>
 
     <button onclick="location.href='/players/new-roster'">+</button>
-    <button>Delete Roster</button> 
-<!--
     <form method="post" action="/">
         <input type="hidden" name="rosterName" id="rosterName" value="<%= directory[0] %>">
         <button>Delete Roster</button>
     </form>
--->
+    
 </div>
 
     <h1>Players</h1>
@@ -82,7 +80,21 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  
+    function changeRoster() {
+        document.getElementById("rosterName").value = document.getElementById("rosterSelect").value;
+        document.getElementById("rosterChange").submit();
+    }
+    /*
+    function hideMenu(){
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("endGameButton").style.display = "";
+    }
+
+    function revealMenu(){
+        document.getElementById("menu").style.display = "";
+        document.getElementById("endGameButton").style.display = "none";
+    }
+    
     $(document).ready(() => {
         $("#deleteButton").on("click", (event) => {
             var clientChoice = confirm("Are you sure you want to delete this Roster?");
@@ -109,7 +121,7 @@
             }
         })
     })
-    
+    */
     function renderTable(players) {
         var table = document.getElementById("knownPlayers");
         for (var i = table.rows.length - 1; i > 0; i-- ) {

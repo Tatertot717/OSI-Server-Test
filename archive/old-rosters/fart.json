@@ -1,0 +1,27 @@
+{
+  "fileName": "fart.json",
+  "sample": [
+    {
+      "deviceNumber": "0",
+      "ip": "420.69.6.9",
+      "name": "Poop Butt",
+      "number": "69",
+      "data": {
+        "maxAcceleration": 696969969696
+      }
+    }
+  ],
+  "known": [
+    {
+      "deviceNumber": "1",
+      "ip": "172.18.0.1",
+      "name": "Shit Fart",
+      "number": "##",
+      "data": {
+        "maxAcceleration": 0.42718417431204814
+      }
+    }
+  ],
+  "unknown": [],
+  "_locals": {}
+}

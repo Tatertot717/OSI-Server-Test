@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History By Name</title>
+  </head>
+  
+  <body>
+    <div>
+      <!-- i might do something with rendering new page, i may j hide divs idk yet all i know is im gangstarrrr baller ass girl boobs!-->
+      <button>Search By Name</button>
+      <button onclick="window.location = 'url';">Search By Time</button>
+      
+    </div>
+
+    
+    <div id="historyByName">
+      <% for(i in known) { %>
+
+          <% var tempKeys = Object.keys(known[i].data) %>
+          <% var tempVals = Object.values(known[i].data) %>
+        
+          <h3><%= known[i].name%>:</h3>
+          <% if(tempKeys.length > 0) { %>
+          <table>
+            <tr>
+              <th>Time</th>
+              <th> </th>
+              <th>Acceleration</th>
+            </tr>
+          <% } %>
+            <% if(tempKeys.length > 0) { %>
+              
+            <% for(let j = 0; j < tempKeys.length; j++){%>
+            
+            <tr>
+              <td><%= tempKeys[j]%></td>
+              <td>=</td>
+              <td><%= tempVals[j]%></td>
+            </tr>
+            <%}%>
+          <%} else {%>
+            <p>None</p>
+          <%}%>
+            
+          </table>
+        
+      <%}%>
+    </div>
+
+
+    <div id="historyByTime">
+      
+    </div>
+  </body>
+  
+</html>

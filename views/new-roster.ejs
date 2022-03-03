@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<style>
+
+    table, th, td {
+    border:1px solid black;
+    },
+  
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Roster</title>
+</head>
+<body>
+    <form id= "formName" method="post" action="/players/new-roster">
+        <label for="rosterName">Roster Name:</label>
+        <input type="text" name="rosterName" id="rosterName">
+        
+        <table id="knownPlayers">
+            <tr>
+                <th>Device</th>
+                <th>Name</th>
+                <th>Number</th>
+            </tr>
+            <% for ( var ip in devices ) { %>
+            <tr>
+                <td><%= devices[ip] %></td>
+                <td><input type="text" name="<%= devices[ip] %>" value="First Last"></td>
+                <td><input type="text" name="<%= devices[ip] %>" value="##"></td>
+            </tr>
+            <% } %>
+        </table>
+              
+        <button type="button" onclick="checkFunction()">Save and Quit</button>
+    </form>
+
+    <a href="/">Quit</a>
+
+    <script>
+      function checkFunction(){
+        if(document.getElementById("rosterName").value == "") {
+          alert("You Forgot to Name the Roster DUMMY!!! BAKKAAAA");
+          return;
+        }
+        
+        document.getElementById("formName").submit();
+      }
+      
+    </script>
+</body>
+  
+</html>

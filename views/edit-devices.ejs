@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    table, th, td {
+    border:1px solid black;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced</title>
+</head>
+<body>
+    <h1>Edit Devices</h1>
+    <form id="edit-devices" method="post" action="/players/edit-devices">
+        <table id="devices">
+            <tr>
+                <td></td>
+                <th>Device</th>
+                <th>IP Address</th>
+            </tr>
+            <% for (const player in devices) { %>
+            <tr>
+                <td><button type="button" onclick="removeRow()">-</button></td>
+                <td><input type="number" name="deviceNumber" value="<%= devices[player] %>"></td>
+                <td><input type="text" name="ip" value="<%= player %>"></td>
+            </tr>
+            <% } %>
+        </table>
+        <button type="button" onclick="addPlayer()">+</button>
+        <button type="button" onclick="submitForm()">Save and Quit</button><br>
+    </form>
+
+    <a href="/">Quit</a>
+
+<script>
+    function addPlayer() {
+        var table = document.getElementById("devices");
+
+        var numbers = Array(table.rows.length);
+        var deviceNumber;
+        for (var i = 1; i < table.rows.length; i++) {
+            var number = parseInt(table.rows[i].cells[1].firstChild.value);
+            if (number < table.rows.length) {
+                numbers[number] = number;
+            }
+        }
+        for (var i = 1; i < table.rows.length; i++) {
+            if (!numbers[i]) {
+                deviceNumber = i;
+            }
+        }
+        if (!deviceNumber) {
+            deviceNumber = table.rows.length;
+        }
+
+        var newRow = table.insertRow(-1);
+        button = document.createElement("button");
+        button.type = "button";
+        button.onclick = removeRow;
+        button.innerHTML = "-"
+        newRow.insertCell(0).appendChild(button);
+        input = document.createElement("input");
+        input.name = "deviceNumber";
+        input.type = "number";
+        input.value = deviceNumber;
+        newRow.insertCell(1).appendChild(input);
+        input = document.createElement("input");
+        input.name = "ip";
+        input.type = "text";
+        input.value = "ipAddress";
+        newRow.insertCell(2).appendChild(input);
+    }
+
+    function removeRow() {
+        var td = event.target.parentNode; 
+        var tr = td.parentNode; // the row to be removed
+        tr.parentNode.removeChild(tr);
+    }
+
+    function submitForm() {
+        var table = document.getElementById("devices");
+
+        for (var i = 1; i < table.rows.length - 1; i++) {
+            for (var j = i + 1; j < table.rows.length; j++) {
+                if (table.rows[i].cells[1].firstChild.value == table.rows[j].cells[1].firstChild.value) {
+                    console.log("Idiot Alert!!!!");
+                    alert("duplicate IP Addresses");
+                    return;
+                }
+                if (table.rows[i].cells[2].firstChild.value == table.rows[j].cells[2].firstChild.value) {
+                    console.log("request declined");
+                    alert("duplicate device numbers");
+                    return;
+                }
+            }
+        }
+        document.getElementById("edit-devices").submit();
+    }
+</script>
+</body>
+</html>

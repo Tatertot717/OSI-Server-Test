@@ -1,0 +1,45 @@
+{
+  "fileName": "players.json",
+  "sample": [
+    {
+      "deviceNumber": "0",
+      "ip": "420.69.6.9",
+      "name": "Grichard Roeneveld",
+      "number": "69",
+      "data": {
+        "maxAcceleration": 696969969696
+      }
+    }
+  ],
+  "known": [
+    {
+      "deviceNumber": "1",
+      "ip": "172.18.0.1",
+      "name": "First Last",
+      "number": "##",
+      "data": {
+        "maxAcceleration": "none"
+      }
+    },
+    {
+      "deviceNumber": "2",
+      "ip": "ipAddress1",
+      "name": "First Last",
+      "number": "##",
+      "data": {
+        "maxAcceleration": "none"
+      }
+    },
+    {
+      "deviceNumber": "3",
+      "ip": "ipAddress2",
+      "name": "First Last",
+      "number": "##",
+      "data": {
+        "maxAcceleration": "none"
+      }
+    }
+  ],
+  "unknown": [],
+  "_locals": {}
+}
